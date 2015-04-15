@@ -13,6 +13,15 @@ import random
 import readline
 
 
+def bedenk_computer_zet(board, computer_letter):
+    """
+    @type board: list
+    @type computer_letter: str
+    @return: None
+    """
+    return doe_willekeurige_zet_van_de_lijst_met_mogelijkheden(board, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+
 def controleer_bord_vol(board):
     """
     @type board: list
@@ -117,20 +126,10 @@ def maak_kopie_bord(board):
     return dupe_board
 
 
-    def bedenk_computer_zet(board, computer_letter):
-        """
-        @type board: list
-        @type computer_letter: str
-        @return: None
-        """
-        return doe_willekeurige_zet_van_de_lijst_met_mogelijkheden(board, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-
-
 def main():
     """
     main
     """
-
     text_naar_scherm(b"\xf0\x9f\x98\x8e\033[95m  Boter Kaas en Eieren! \033[0m\xf0\x9f\x98\x8e".decode())
     text_naar_scherm()
 
@@ -205,7 +204,8 @@ def nogmaal_spelen_vraag():
 
 def teken_bord(board, winner=None):
     """
-    @type board: list
+    @type board: str
+    @type winner: str, None
     @return: None
     """
     num = []
