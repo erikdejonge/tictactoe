@@ -1,6 +1,5 @@
-# tictactoe
-Tic Tac Toe
 
+#Tic Tac Toe
 
 ###Opdracht 1:
 
