@@ -41,7 +41,7 @@ def choose_random_move_from_list(board, moves_list):
         return None
 
 
-def draw_board(board):
+def draw_board(board, winner=None):
     """
     @type board: list
     @return: None
@@ -66,16 +66,15 @@ def draw_board(board):
     boardstring += '   |   |\n'
     boardstring = boardstring.replace("_", "\033[0;38m-\033[0m")
     boardstring = boardstring.replace("|", "\033[0;38m|\033[0m")
-
-    if is_winner(board, "X"):
-        boardstring = boardstring.replace("X", "\033[0;32mX\033[0m")
+    if winner is None:
+        boardstring = boardstring.replace("X", "\033[0;36mX\033[0m")
+        boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
+    elif winner is "X":
+        boardstring = boardstring.replace("X", b"\xf0\x9f\x98\x8e".decode())
+        boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
     else:
         boardstring = boardstring.replace("X", "\033[0;36mX\033[0m")
-
-    if is_winner(board, "O"):
-        boardstring = boardstring.replace("O", "\033[0;32mO\033[0m")
-    else:
-        boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
+        boardstring = boardstring.replace("O", b"\033[0;36mX\033[0m".decode())
 
     print(boardstring)
 
@@ -233,7 +232,7 @@ def main():
                 make_move(the_board, player_letter, move)
 
                 if is_winner(the_board, player_letter):
-                    draw_board(the_board)
+                    draw_board(the_board, player_letter)
                     celebrate()
                     textoutput(b'U heeft gewonnen! \xf0\x9f\x98\x8e'.decode())
                     celebrate()
@@ -251,7 +250,7 @@ def main():
                 make_move(the_board, computer_letter, move)
 
                 if is_winner(the_board, computer_letter):
-                    draw_board(the_board)
+                    draw_board(the_board, computer_letter)
                     textoutput(b'U heeft verloren \xf0\x9f\x98\xa2'.decode())
                     game_is_playing = False
                 else:
