@@ -64,10 +64,19 @@ def draw_board(board):
     boardstring += num[1] + '  |' + num[2] + '  |' + num[3] + '\n'
     boardstring += ' ' + board[1] + ' | ' + board[2] + ' | ' + board[3] + '\n'
     boardstring += '   |   |\n'
-    boardstring = boardstring.replace("X", "\033[0;35mX\033[0m")
-    boardstring = boardstring.replace("O", "\033[0;91mO\033[0m")
     boardstring = boardstring.replace("_", "\033[0;38m-\033[0m")
     boardstring = boardstring.replace("|", "\033[0;38m|\033[0m")
+
+    if is_winner(board, "X"):
+        boardstring = boardstring.replace("X", "\033[0;32mX\033[0m")
+    else:
+        boardstring = boardstring.replace("X", "\033[0;36mX\033[0m")
+
+    if is_winner(board, "O"):
+        boardstring = boardstring.replace("O", "\033[0;32mO\033[0m")
+    else:
+        boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
+
     print(boardstring)
 
 
@@ -127,7 +136,7 @@ def input_player_letter():
     letter = ''
 
     while not (letter == 'X' or letter == 'O'):
-        print('\033[0;34mWilt u X \033[34mof\033[0m O \033[0;34mzijn:\033[0m'.replace("X", "\033[0;35mX\033[0m").replace("O", "\033[0;91mO\033[0m"))
+        print('\033[0;34mWilt u X \033[34mof\033[0m O \033[0;34mzijn:\033[0m'.replace("X", "\033[0;36mX\033[0m").replace("O", "\033[0;95mO\033[0m"))
         try:
             letter = input().upper()
         except KeyboardInterrupt:
@@ -185,6 +194,12 @@ def is_winner(bo, le):
             (bo[9] == le and bo[5] == le and bo[1] == le))  # diagonal
 
 
+def celebrate():
+    print()
+    print(b'\xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 \xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 '.decode())
+    print()
+
+
 def main():
     """
     main
@@ -219,7 +234,9 @@ def main():
 
                 if is_winner(the_board, player_letter):
                     draw_board(the_board)
+                    celebrate()
                     textoutput(b'U heeft gewonnen! \xf0\x9f\x98\x8e'.decode())
+                    celebrate()
                     game_is_playing = False
                 else:
                     if is_board_full(the_board):
