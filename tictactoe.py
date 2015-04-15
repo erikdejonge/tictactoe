@@ -9,6 +9,17 @@ import random
 import readline
 
 
+def textoutput(s=None):
+    """
+    @type s: str, None
+    @return: None
+    """
+    if s is None:
+        print()
+    else:
+        print("\033[0;34m" + str(s) + "\033[0m")
+
+
 def choose_random_move_from_list(board, moves_list):
     """
     @type board: list
@@ -37,10 +48,10 @@ def draw_board(board):
     """
     num = []
 
-    for i in range(0, 10):
+    for i in range(10):
         num.append("\033[37m" + str(i) + "\033[0m")
 
-    # this function prints out the board that it was passed.
+    # this function textoutputs out the board that it was passed.
     # "board" is a list of 10 strings representing the board (ignore index 0)
     boardstring = num[7] + '  |' + num[8] + '  |' + num[9] + '\n'
     boardstring += ' ' + board[7] + ' | ' + board[8] + ' | ' + board[9] + '\n'
@@ -53,7 +64,7 @@ def draw_board(board):
     boardstring += num[1] + '  |' + num[2] + '  |' + num[3] + '\n'
     boardstring += ' ' + board[1] + ' | ' + board[2] + ' | ' + board[3] + '\n'
     boardstring += '   |   |\n'
-    boardstring = boardstring.replace("X", "\033[0;34mX\033[0m")
+    boardstring = boardstring.replace("X", "\033[0;35mX\033[0m")
     boardstring = boardstring.replace("O", "\033[0;91mO\033[0m")
     boardstring = boardstring.replace("_", "\033[0;38m-\033[0m")
     boardstring = boardstring.replace("|", "\033[0;38m|\033[0m")
@@ -100,14 +111,15 @@ def get_computer_move(board, computer_letter):
                 return i
 
     # check if the player could win on his next move, and block them.
-    for i in range(1, 10):
-        copy = get_board_copy(board)
+    for i in range(10):
+        if i > 0:
+            copy = get_board_copy(board)
 
-        if is_space_free(copy, i):
-            make_move(copy, player_letter, i)
+            if is_space_free(copy, i):
+                make_move(copy, player_letter, i)
 
-            if is_winner(copy, player_letter):
-                return i
+                if is_winner(copy, player_letter):
+                    return i
 
     # try to take one of the corners, if they are free.
     move = choose_random_move_from_list(board, [1, 3, 7, 9])
@@ -134,7 +146,7 @@ def get_player_move(board):
     move = ' '
 
     while move not in '1 2 3 4 5 6 7 8 9'.split() or not is_space_free(board, int(move)):
-        print('Wat is uw volgende zet? (1-9, s=stoppen)')
+        textoutput('Wat is uw volgende zet? (1-9, s=stoppen)')
         try:
             move = input()
         except KeyboardInterrupt:
@@ -156,7 +168,7 @@ def input_player_letter():
     letter = ''
 
     while not (letter == 'X' or letter == 'O'):
-        print('Wilt u X of O zijn: '.replace("X", "\033[0;34mX\033[0m").replace("O", "\033[0;91mO\033[0m"))
+        print('\033[0;34mWilt u X \033[34mof\033[0m O \033[0;34mzijn:\033[0m'.replace("X", "\033[0;35mX\033[0m").replace("O", "\033[0;91mO\033[0m"))
         try:
             letter = input().upper()
         except KeyboardInterrupt:
@@ -176,9 +188,10 @@ def is_board_full(board):
     """
 
     # return True if every space on the board has been taken. otherwise return false.
-    for i in range(1, 10):
-        if is_space_free(board, i):
-            return False
+    for i in range(10):
+        if i > 0:
+            if is_space_free(board, i):
+                return False
 
     return True
 
@@ -218,8 +231,8 @@ def main():
     main
     """
 
-    print("\033[95m== Boter Kaas en Eieren! ==\033[0m")
-    print()
+    textoutput("\033[95m== Boter Kaas en Eieren! ==\033[0m")
+    textoutput()
 
     while True:
 
@@ -235,7 +248,7 @@ def main():
         else:
             turnvis = "De computer"
 
-        print(turnvis + ' mag beginnen.')
+        textoutput(turnvis + ' mag beginnen.')
         game_is_playing = True
 
         while game_is_playing:
@@ -247,12 +260,12 @@ def main():
 
                 if is_winner(the_board, player_letter):
                     draw_board(the_board)
-                    print(b'U heeft gewonnen! \xf0\x9f\x98\x8e'.decode())
+                    textoutput(b'U heeft gewonnen! \xf0\x9f\x98\x8e'.decode())
                     game_is_playing = False
                 else:
                     if is_board_full(the_board):
                         draw_board(the_board)
-                        print(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
+                        textoutput(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
                         break
                     else:
                         turn = 'computer'
@@ -263,18 +276,18 @@ def main():
 
                 if is_winner(the_board, computer_letter):
                     draw_board(the_board)
-                    print(b'U heeft verloren \xf0\x9f\x98\xa2'.decode())
+                    textoutput(b'U heeft verloren \xf0\x9f\x98\xa2'.decode())
                     game_is_playing = False
                 else:
                     if is_board_full(the_board):
                         draw_board(the_board)
-                        print(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
+                        textoutput(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
                         break
                     else:
                         turn = 'player'
 
         if not play_again():
-            print(b"Tot ziens. \xf0\x9f\x98\x80".decode())
+            textoutput(b"Tot ziens. \xf0\x9f\x98\x80".decode())
             break
 
 
@@ -294,7 +307,8 @@ def play_again():
     """
 
     # this function returns True if the player wants to play again, otherwise it returns false.
-    print('Nog een keer? (ja of nee)')
+    print()
+    textoutput('Nog een keer? (ja of nee)')
     return input().lower().startswith('j')
 
 
