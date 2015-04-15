@@ -92,48 +92,7 @@ def get_computer_move(board, computer_letter):
     @type computer_letter: str
     @return: None
     """
-
-    # given a board and the computer's letter, determine where to move and return that move.
-    if computer_letter == 'X':
-        player_letter = 'O'
-    else:
-        player_letter = 'X'
-
-    # here is our algorithm for our tic tac toe ai:
-    # first, check if we can win in the next move
-    for i in range(1, 10):
-        copy = get_board_copy(board)
-
-        if is_space_free(copy, i):
-            make_move(copy, computer_letter, i)
-
-            if is_winner(copy, computer_letter):
-                return i
-
-    # check if the player could win on his next move, and block them.
-    for i in range(10):
-        if i > 0:
-            copy = get_board_copy(board)
-
-            if is_space_free(copy, i):
-                make_move(copy, player_letter, i)
-
-                if is_winner(copy, player_letter):
-                    return i
-
-    # try to take one of the corners, if they are free.
-    move = choose_random_move_from_list(board, [1, 3, 7, 9])
-
-    if move is not None:
-        return move
-
-    # try to take the center, if it is free.
-
-    if is_space_free(board, 5):
-        return 5
-
-    # move on one of the sides.
-    return choose_random_move_from_list(board, [2, 4, 6, 8])
+    return choose_random_move_from_list(board, [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 
 def get_player_move(board):
