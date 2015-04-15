@@ -4,20 +4,21 @@
 tic tac toe
 dave koning
 2015
+
+Todo: De functie get_computer_move doet nu een willekeurige zet, kun je het programma zo aanpassen dat hij wat beter speelt?
+
 """
 import random
 import readline
 
 
-def textoutput(s=None):
+def celebrate():
     """
-    @type s: str, None
-    @return: None
+    celebrate
     """
-    if s is None:
-        print()
-    else:
-        print("\033[0;34m" + str(s) + "\033[0m")
+    print()
+    print(b'\xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 \xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 '.decode())
+    print()
 
 
 def choose_random_move_from_list(board, moves_list):
@@ -66,6 +67,7 @@ def draw_board(board, winner=None):
     boardstring += '   |   |\n'
     boardstring = boardstring.replace("_", "\033[0;38m-\033[0m")
     boardstring = boardstring.replace("|", "\033[0;38m|\033[0m")
+
     if winner is None:
         boardstring = boardstring.replace("X", "\033[0;36mX\033[0m")
         boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
@@ -74,7 +76,7 @@ def draw_board(board, winner=None):
         boardstring = boardstring.replace("O", "\033[0;95mO\033[0m")
     else:
         boardstring = boardstring.replace("X", "\033[0;36mX\033[0m")
-        boardstring = boardstring.replace("O", b"\033[0;36mX\033[0m".decode())
+        boardstring = boardstring.replace("O", b"\xf0\x9f\x98\x8e".decode())
 
     print(boardstring)
 
@@ -134,10 +136,14 @@ def input_player_letter():
     # returns a list with the player's letter as the first item, and the computer's letter as the second.
     letter = ''
 
-    while not (letter == 'X' or letter == 'O'):
-        print('\033[0;34mWilt u X \033[34mof\033[0m O \033[0;34mzijn:\033[0m'.replace("X", "\033[0;36mX\033[0m").replace("O", "\033[0;95mO\033[0m"))
+    while not (letter == 'X' or letter == 'O'or letter == 'S'):
+        welkom = '\033[0;34mWilt u X \033[34mof\033[0m O \033[0;34mzijn:\033[0m'
+        print(welkom.replace("X", "\033[0;36mX\033[0m").replace("O", "\033[0;95mO\033[0m"))
         try:
             letter = input().upper()
+
+            if letter.strip() == "S":
+                exit(1)
         except KeyboardInterrupt:
             exit(1)
 
@@ -193,18 +199,12 @@ def is_winner(bo, le):
             (bo[9] == le and bo[5] == le and bo[1] == le))  # diagonal
 
 
-def celebrate():
-    print()
-    print(b'\xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 \xf0\x9f\x8e\x88 \xf0\x9f\x92\xa5  \xe2\x9c\xa8 '.decode())
-    print()
-
-
 def main():
     """
     main
     """
 
-    textoutput("\033[95m== Boter Kaas en Eieren! ==\033[0m")
+    textoutput(b"\xf0\x9f\x98\x8e\033[95m  Boter Kaas en Eieren! \033[0m\xf0\x9f\x98\x8e".decode())
     textoutput()
 
     while True:
@@ -283,8 +283,22 @@ def play_again():
 
     # this function returns True if the player wants to play again, otherwise it returns false.
     print()
-    textoutput('Nog een keer? (ja of nee)')
-    return input().lower().startswith('j')
+    try:
+        textoutput('Nog een keer? (ja of nee)')
+        return input().lower().startswith('j')
+    except KeyboardInterrupt:
+        pass
+
+
+def textoutput(s=None):
+    """
+    @type s: str, None
+    @return: None
+    """
+    if s is None:
+        print()
+    else:
+        print("\033[0;34m" + str(s) + "\033[0m")
 
 
 def who_goes_first():
