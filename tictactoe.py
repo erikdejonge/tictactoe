@@ -5,7 +5,6 @@ tic tac toe
 dave koning
 2015
 """
-
 import random
 import readline
 
@@ -138,7 +137,7 @@ def get_player_move(board):
         print('Wat is uw volgende zet? (1-9, s=stoppen)')
         try:
             move = input()
-        except keyboard_interrupt:
+        except KeyboardInterrupt:
             exit(1)
 
         if move.strip().lower() == "s" or move.strip().lower() == "stoppen":
@@ -157,10 +156,10 @@ def input_player_letter():
     letter = ''
 
     while not (letter == 'X' or letter == 'O'):
-        print('Wilt u X of O zijn: ')
+        print('Wilt u X of O zijn: '.replace("X", "\033[0;34mX\033[0m").replace("O", "\033[0;91mO\033[0m"))
         try:
             letter = input().upper()
-        except keyboard_interrupt:
+        except KeyboardInterrupt:
             exit(1)
 
     # the first element in the tuple is the player's letter, the second is the computer's letter.
@@ -230,7 +229,6 @@ def main():
         # draw_board(the_board)
         player_letter, computer_letter = input_player_letter()
         turn = who_goes_first()
-        turnvis = ""
 
         if turn == "player":
             turnvis = "U"
@@ -249,12 +247,12 @@ def main():
 
                 if is_winner(the_board, player_letter):
                     draw_board(the_board)
-                    print('U heeft gewonnen!')
+                    print(b'U heeft gewonnen! \xf0\x9f\x98\x8e'.decode())
                     game_is_playing = False
                 else:
                     if is_board_full(the_board):
                         draw_board(the_board)
-                        print('Het is gelijkspel!')
+                        print(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
                         break
                     else:
                         turn = 'computer'
@@ -265,17 +263,18 @@ def main():
 
                 if is_winner(the_board, computer_letter):
                     draw_board(the_board)
-                    print('U heeft verloren :-(.')
+                    print(b'U heeft verloren \xf0\x9f\x98\xa2'.decode())
                     game_is_playing = False
                 else:
                     if is_board_full(the_board):
                         draw_board(the_board)
-                        print('Gelijkspel!')
+                        print(b'Gelijkspel! \xf0\x9f\x98\x90'.decode())
                         break
                     else:
                         turn = 'player'
 
         if not play_again():
+            print(b"Tot ziens. \xf0\x9f\x98\x80".decode())
             break
 
 
@@ -310,8 +309,8 @@ def who_goes_first():
     else:
         return 'player'
 
-
 readline.parse_and_bind("tab: complete")
+
 
 if __name__ == "__main__":
     main()
