@@ -10,6 +10,7 @@ Bij winst wordt de winnende letter vervangen door een smiley, pas het programma 
 ###Opdracht 2:
 
 De functie bedenk_computer_zet doet nu een willekeurige zet, kun je het programma zo aanpassen dat hij beter speelt? 
+
 ```python
 def bedenk_computer_zet(board, computer_letter):
     """
