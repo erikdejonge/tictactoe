@@ -5,13 +5,15 @@
 
 Bij winst wordt de winnende letter vervangen door een smiley, pas het programma aan zodat alleen de letters op de 'win-lijn' smiley's worden.
 
+> Bij winst wordt de winnende letter vervangen door een smiley, pas het programma aan zodat alleen de letters op de 'win-lijn' smiley's worden.
 
+nu is het weer afgelopen
 
 ###Opdracht 2:
 
 De functie bedenk_computer_zet doet nu een willekeurige zet, kun je het programma zo aanpassen dat hij beter speelt? 
 
-```ruby
+```python
 def bedenk_computer_zet(board, computer_letter):
     """
     @type board: list
@@ -22,3 +24,4 @@ def bedenk_computer_zet(board, computer_letter):
 ```
 
 Succes!
+	
