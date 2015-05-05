@@ -11,7 +11,7 @@ Bij winst wordt de winnende letter vervangen door een smiley, pas het programma 
 
 De functie bedenk_computer_zet doet nu een willekeurige zet, kun je het programma zo aanpassen dat hij beter speelt? 
 
-```python
+```ruby
 def bedenk_computer_zet(board, computer_letter):
     """
     @type board: list
