@@ -1,3 +1,9 @@
+"""
+idocstring
+"""
+def evaluate(game_state):
+    return 0
+
 def min_play(game_state):
     if game_state.is_gameover():
         return evaluate(game_state)
